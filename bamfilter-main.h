@@ -14,6 +14,7 @@
 #define FMUTOOLS_BAMFILTER_H_
 
 #include <string>
+#include <memory>
 
 namespace fmu_tools {
 
@@ -21,12 +22,19 @@ namespace fmu_tools {
 class BamFilterMain {
 
  public:
-  BamFilterMain() {}
-  ~BamFilterMain() {}
+  BamFilterMain(); 
+  ~BamFilterMain();
   
  public:
   // Main entry point
-  int Run(int argc, char* argv[]);
+  int Run(int argc, char *argv[]);
+
+ private:
+  // Access to command line options
+  // Use only for clearly defined operations
+  class OptionHandler;
+  OptionHandler *opt_handler_;
+  OptionHandler &opt() { return *opt_handler_; }
 
 };
 

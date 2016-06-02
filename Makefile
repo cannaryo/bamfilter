@@ -3,12 +3,13 @@
 # (c) 2016 Ryo Kanno
 # ========================================
 
+ROOTDIR = /home/clc/test/bamfilter
 CXX	= g++
-CFLAGS	= -O4 -Wall -I/usr/local/include -I/home/clc/test/bamtools-master/include
+CFLAGS	= -O4 -Wall -I/usr/local/include -I$(ROOTDIR)/include/bamtools/include -I$(ROOTDIR)/include/cmdline
 DEST	= /usr/local/bin
-LDFLAGS	= -L/usr/local/lib -L/home/clc/test/bamtools-master/lib
+LDFLAGS	= -L/usr/local/lib -L$(ROOTDIR)/include/bamtools/lib
 LIBS	= -lm -lz -lbamtools
-SOURCE	= main.cc bamfilter-main.cc sequence-splitter.cc
+SOURCE	= main.cc bamfilter-main.cc sequence-splitter.cc sequence-evaluator.cc
 PROGRAM = bin/bamfilter
 
 all:	$(PROGRAM)
