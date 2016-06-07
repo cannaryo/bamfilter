@@ -116,6 +116,8 @@ int BamFilterMain::Run(int argc, char* argv[]) {
   BamAlignment record;
   std::ofstream output;
   bool do_out = false;
+  bool do_softclip = false;
+  bool do_fixedlength = false;
   string head = file.GetHeaderText();
   SequenceEvaluator seq_filter;
   struct SequenceEvaluator::FilterParameters prms;
@@ -126,6 +128,13 @@ int BamFilterMain::Run(int argc, char* argv[]) {
   prms.min_match = opt().GetInt("min-match");
   prms.reverse_sign = opt().Exist("reverse");
   prms.keep_unmapped = opt().Exist("unmapped");
+  SequenceSplitter soft_split;
+  if( opt().Exist("softclip") ) {
+    soft_split.Open(opt().GetString("softclip"));
+    soft_split.set_min_clip(opt().GetInt("soft-min-clip"));
+    soft_split.set_min_hold(opt().GetInt("soft-min-hold"));
+    do_softclip = true;
+  }
 
   if( opt().Exist("output") ) {
     output.open( opt().GetString("output").c_str(), std::ios::out );
@@ -133,17 +142,26 @@ int BamFilterMain::Run(int argc, char* argv[]) {
     output << head;
   }
   seq_filter.SetFileInformation(file);
+  int i=0;
   while(file.GetNextAlignmentCore(record)) {
     if(seq_filter.FilterByCigar(record, prms)) {
       record.BuildCharData();
-      string str = seq_filter.ConvertToSam(record);
-      if(do_out) {
+      if(do_softclip && soft_split.SplitBySoftClip(record) ) {
+        soft_split.Write();
+        if( opt().Exist("keep-used-read") && do_out) {
+          string str = seq_filter.ConvertToSam(record);
+          output << str;
+        }
+      } else if(do_out) { 
+        string str = seq_filter.ConvertToSam(record);
         output << str;
-      } else {
-        std::cout << str;
       }
+      i++;
     }
+    //    if(i>10)
+    //  break;
   }
+  soft_split.Close();
   file.Close();
   
   return 0;

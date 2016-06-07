@@ -167,8 +167,7 @@ string SequenceEvaluator::ConvertToSam(const BamAlignment &d) const {
     string tag_name = d.TagData.substr(index, 2);
     out << "\t" << tag_name << ":";
     index += 2;        
-    // get data type
-    
+    // get data type    
     char type = d.TagData.at(index);
     ++index;
     switch ( type ) {
@@ -215,6 +214,48 @@ string SequenceEvaluator::ConvertToSam(const BamAlignment &d) const {
         ++index;
       }
       ++index;
+      break;
+    case (Constants::BAM_TAG_TYPE_ARRAY)  :
+      char sub_type = tag_data[index];
+      out << "B:" << sub_type;
+      ++index;
+      int array_len = BamTools::UnpackSignedInt(&tag_data[index]);
+      index += sizeof(int32_t);
+      //      std::cerr << tag_name << ":B:" << sub_type << ":" << array_len << std::endl;
+      for(int i=0; i<array_len; i++) {
+        switch( sub_type ) {
+        case (Constants::BAM_TAG_TYPE_INT8) :
+          // force value into integer-type (instead of char value)
+          out << "," << static_cast<int16_t>(static_cast<int8_t>(tag_data[index]));
+          ++index;
+          break;      
+        case (Constants::BAM_TAG_TYPE_UINT8) :
+          // force value into integer-type (instead of char value)
+          out << "," << static_cast<uint16_t>(static_cast<uint8_t>(tag_data[index]));
+          ++index;
+          break;      
+        case (Constants::BAM_TAG_TYPE_INT16) :
+          out << "," << BamTools::UnpackSignedShort(&tag_data[index]);
+          index += sizeof(int16_t);
+          break;      
+        case (Constants::BAM_TAG_TYPE_UINT16) :
+          out << "," << BamTools::UnpackUnsignedShort(&tag_data[index]);
+          index += sizeof(uint16_t);
+          break;      
+        case (Constants::BAM_TAG_TYPE_INT32) :
+          out << "," << BamTools::UnpackSignedInt(&tag_data[index]);
+          index += sizeof(int32_t);
+          break;      
+        case (Constants::BAM_TAG_TYPE_UINT32) :
+          out << "," << BamTools::UnpackUnsignedInt(&tag_data[index]);
+          index += sizeof(uint32_t);
+          break;      
+        case (Constants::BAM_TAG_TYPE_FLOAT) :
+          out << "," << BamTools::UnpackFloat(&tag_data[index]);
+          index += sizeof(float);
+          break;
+        }              
+      }
       break;
     }  
     if ( tag_data[index] == '\0' )

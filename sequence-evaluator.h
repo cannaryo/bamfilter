@@ -13,7 +13,6 @@
 #ifndef FMUTOOLS_SEQUENCEEVALUATOR_H_
 #define FMUTOOLS_SEQUENCEEVALUATOR_H_
 
-#include <string>
 #include <api/BamConstants.h>
 #include <api/BamReader.h>
 #include <api/BamAlignment.h>
