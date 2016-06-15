@@ -52,6 +52,7 @@ bool SequenceSplitter::Write() {
   output_ << right_sequence_ << std::endl;
   output_ << "+" << std::endl; 
   output_ << right_quality_ << std::endl;
+  data_renewed_ = false;
   return true;
 }
 
@@ -102,7 +103,23 @@ bool SequenceSplitter::SplitBySoftClip(const BamTools::BamAlignment &d) {
   return true;
 }
 
-bool SequenceSplitter::SplitByFixedLength(const BamTools::BamAlignment &d) {
+bool SequenceSplitter::SplitByFixedLength(const BamTools::BamAlignment &d, int size) {
+  int len = d.Length;
+  if(len < min_length_ || len < size*2) {
+    return false;
+  }
+  left_sequence_ = d.QueryBases.substr(0, size);
+  left_quality_ = d.Qualities.substr(0, size);
+  left_name_ = d.Name + ":LF";
+  right_sequence_ = d.QueryBases.substr(len - size, size);
+  right_quality_ = d.Qualities.substr(len -size, size);
+  right_name_ = d.Name + ":RM";
+
+  if(d.Name[0] != '@') {
+    right_name_ = "@" + right_name_;
+    left_name_ = "@" + left_name_;
+  }
+  data_renewed_ = true;
   return true;
 }
 

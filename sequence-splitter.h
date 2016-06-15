@@ -50,7 +50,7 @@ class SequenceSplitter {
   // Makes Fixed-length split sequence from BAM alignment data.
   // If it successfully split the sequence, data member are renewed and returns true.  
   // If data do not satisfy the condition, just returns false.
-  bool SplitByFixedLength(const BamTools::BamAlignment &d);
+  bool SplitByFixedLength(const BamTools::BamAlignment &d, int size);
 
   // Accessors
   void set_min_clip(int n) { min_clip_ = n; }
