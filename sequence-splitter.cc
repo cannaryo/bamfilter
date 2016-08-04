@@ -113,7 +113,7 @@ bool SequenceSplitter::SplitByFixedLength(const BamTools::BamAlignment &d, int s
   left_name_ = d.Name + ":LF";
   right_sequence_ = d.QueryBases.substr(len - size, size);
   right_quality_ = d.Qualities.substr(len -size, size);
-  right_name_ = d.Name + ":RM";
+  right_name_ = d.Name + ":RF";
 
   if(d.Name[0] != '@') {
     right_name_ = "@" + right_name_;
