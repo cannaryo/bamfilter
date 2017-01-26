@@ -6,11 +6,22 @@ Bamfilter is a fast filtering tool for BAM files.
 Generally, it works as a part of ReALLEN package.
 
 ============
+Requirements
+============
+
+BamTools API is required.  
+https://github.com/pezmaster31/bamtools/
+
+A quick way is to add the included library path to the environment variable 'LD_LIBRARY_PATH'.
+
+    export LD_LIBRARY_PATH=<install dir>/include/bamtools/lib:$LD_LIBRARY_PATH
+
+============
 Installation
 ============
 
     git clone https://github.com/cannaryo/bamfilter.git
-    cd bamfilter-master
+    cd bamfilter
     make
     make install
 
@@ -50,6 +61,3 @@ Citation
 * Bamfiler is developped for faster filtering in ReALLEN workflow.  
 ReALLEN: structural variation discovery in cancer genome by sensitive analysis of single-end reads.  
  Ryo Kanno, Daisuke Tanaka, Hideaki Nanamiya, Takao Isogai
-
-* Bamfilter uses the BamTools API.  
-https://github.com/pezmaster31/bamtools/

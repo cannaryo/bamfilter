@@ -10,7 +10,7 @@ DEST	= /usr/local/bin
 LDFLAGS	= -L/usr/local/lib -L$(ROOTDIR)/include/bamtools/lib
 LIBS	= -lm -lz -lbamtools
 SOURCE	= main.cc bamfilter-main.cc sequence-splitter.cc sequence-evaluator.cc
-PROGRAM = bin/bamfilter
+PROGRAM = bamfilter
 
 all:	$(PROGRAM)
 
