@@ -3,7 +3,7 @@
 # (c) 2016 Ryo Kanno
 # ========================================
 
-ROOTDIR = /home/clc/test/bamfilter
+ROOTDIR = $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 CXX	= g++
 CFLAGS	= -O4 -Wall -I/usr/local/include -I$(ROOTDIR)/include/bamtools/include -I$(ROOTDIR)/include/cmdline
 DEST	= /usr/local/bin

@@ -80,7 +80,7 @@ bool BamFilterMain::OptionHandler::ParseOption(int argc, char *argv[]) {
 // Set all options for the application
 void BamFilterMain::OptionHandler::SetOptionArg()
 {
-  cmd_parser_.footer("<in.bam>: Filter and split BAM file");
+  cmd_parser_.footer("<in.bam>: Filter and split read data in BAM file");
   cmd_parser_.add("help", 0, "print help message");
   cmd_parser_.add<int>("min-deletion", 'd', "keep deletion >= N", false, -1);
   cmd_parser_.add<int>("min-insertion", 'i', "keep insertion >= N", false, -1);
