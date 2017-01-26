@@ -49,9 +49,11 @@ Example of the simple filtering:
 
 Example of the operation with soft-clip split and fixed-length split:
 
-    bamfilter <your-bam-file-name.bam> -u -p -b 8 -s 8 --softclip <output-file.sc.fq> -o <output-file.um.sam> -f 45 -l 100 -k --fixed <output-file.um.fq>
+    bamfilter <your-bam-file-name.bam> -u -p -b 8 -s 8 -k -o <output-file.um.sam> \
+    	      --softclip <output-file.sc.fq> \
+	      --fixed <output-file.um.fq> -f 45 -l 100
 
-*--softclip* option enables soft-clip split.
+*--softclip* option enables soft-clip split.  
 *--fixed* opttion enables fixed-length split.
 
 ========
